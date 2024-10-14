@@ -1,0 +1,53 @@
+----- Изменение ip и старт сервер:
+
+python manage.py runserver 0.0.0.0:8080 
+python manage.py runserver <your-ip-address>:<desired-port> 
+
+To find out your IP (local, ofcourse) use
+For Windows ==>
+ipconfig
+
+Then in settings.py create a variable ALLOWED_HOSTS and store a list of strings containing IP of hosts you want to allow access to.
+Add your IP (external/Static IP) in Allowed_Hosts
+ALLOWED_HOSTS = ['XX.XX.XX.XX']
+
+
+------ Описание движка Django 
+app - имеет определенное значение в вашем проекте, например, домашняя страница, контактная форма или база данных участников.
+Создание app:
+py manage.py startapp <name_app>
+
+В папке <name_app> появляются необходимые файлы:
+views.py - это функции питона что берут http запрос и возвращают http ответ, например документ html
+
+Так же в папке с название проекта есть свой urls.py, добавить в него:
+import include
+path('', include('members.urls')),
+
+------ Создание и использование моделей
+Сначала небходимо создать класс модели в созданном app в файле models.py
+с указанием полей для sql библиотеки
+
+Джаго создаст файл описывающий изменения и хранится в папке /migration/ :
+py manage.py makemigrations members - команда создает таблицу в базе данных
+
+на основе создать таблицу в SQL базе
+py manage.py migrate
+
+В качестве примечания: вы можете просмотреть оператор SQL, который был выполнен из миграции выше.
+Все, что вам нужно сделать, это запустить эту команду с номером миграции:
+py manage.py sqlmigrate members 0001
+
+Сейчас таблица пуста. Для работы с ней используем Python shell:
+py manage.py shell
+
+>>> from members.models import Member (это класс)
+>>> Member.objects.all() - выведет таблицу, она пуста
+>>> member = Member(firstname = 'Samuel', lastname = 'Kukun')
+>>> member.save()
+
+Так же можно добавить значения по названию
+>>> x = Member.objects.all()[0] - 0 это первый объект со своими параметрами
+>>> x.firstname = 'Virgo'
+>>> x.lastname = 'Bazenov'
+>>> x.save()

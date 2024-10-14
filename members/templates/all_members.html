@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All members in SQL database</title>
+</head>
+<body>
+
+<h1>Our members:</h1>
+
+<ul>
+    {% for x in mymembers %}
+        <li>{{ x.firstname }} {{ x.lastname }}</li>
+    {% end for %}
+</ul>
+
+</body>
+</html>
+
